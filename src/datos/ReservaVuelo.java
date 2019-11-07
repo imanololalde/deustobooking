@@ -22,16 +22,12 @@ public class ReservaVuelo {
 	
 	
 	
-	public ReservaVuelo(Usuario u, Vuelo v, int num_asiento, double importe) {
+	public ReservaVuelo(Usuario u, Vuelo v, int num_asientos, double importe) {
 		
 	}
 	
-	public int getNum_asiento() {
+	public int getNum_asientos() {
 		return num_asientos;
-	}
-
-	public void setNum_asiento(int num_asiento) {
-		this.num_asientos = num_asiento;
 	}
 
 	public double getImporte() {
@@ -48,9 +44,6 @@ public class ReservaVuelo {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
-	}
-	public int getNum_asientos() {
-		return num_asientos;
 	}
 
 	public void setNum_asientos(int num_asientos) {
