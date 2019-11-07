@@ -14,10 +14,10 @@ public class Main {
 		Usuario u2 = new Usuario("Juan", "Juan95", "juan95@gmail.com");
 		Usuario u3 = new Usuario("Monica", "Monica33", "monica33@gmail.com");
 		
-		Aeropuerto madrid = new Aeropuerto("Madrid");
-		Aeropuerto barcelona = new Aeropuerto("Barcelona");
-		Aeropuerto bilbao = new Aeropuerto("Bilbao");
-		Aeropuerto sevilla = new Aeropuerto("Sevilla");
+		Aeropuerto madrid = new Aeropuerto("Madrid", "MAD");
+		Aeropuerto barcelona = new Aeropuerto("Barcelona", "BCN");
+		Aeropuerto bilbao = new Aeropuerto("Bilbao", "BIO");
+		Aeropuerto sevilla = new Aeropuerto("Sevilla", "SVL");
 		
 		Vuelo v1 = new Vuelo(21.9, madrid, barcelona);
 		Vuelo v2 = new Vuelo(25.78, bilbao, sevilla);

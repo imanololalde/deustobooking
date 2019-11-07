@@ -1,15 +1,13 @@
 package datos;
 
-import java.util.Random;
 
 public class Aeropuerto {
 
 	private String codigo;
 	private String nombre;
 	
-	public Aeropuerto(String nombre) {
-		Random cod = new Random();
-		this.codigo = String.valueOf(cod.nextDouble());
+	public Aeropuerto(String nombre, String codigo) {
+		this.codigo = codigo;
 		this.nombre = nombre;
 	}
 
