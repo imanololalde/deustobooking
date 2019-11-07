@@ -1,14 +1,25 @@
 package datos;
 
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class Usuario {
-
-	private String nombre;
-	private String nickname;
-	private String email;
 	
+	@PrimaryKey
+	private String nickname;
+	private String nombre;
+	private String email;
+	private String apellidos;
+	
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
 	public Usuario(String nombre, String nickname, String email) {
 		this.nombre = nombre;
 		this.nickname = nickname;

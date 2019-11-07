@@ -1,26 +1,37 @@
 package datos;
 
-import java.util.Random;
+import java.util.Date;
 
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
 public class ReservaVuelo {
-
-	private int num_asiento;
-	private double importe;
+	
+	@PrimaryKey
 	private String codigo;
+	@NotPersistent
+	private int num_asientos;
+	private double importe;
+	@NotPersistent
+	private Date fechaReserva;
+	private int numeroPasajeros;
+	@NotPersistent
+	private String[] nombrePasajeros;
+	
+	
 	
 	public ReservaVuelo(Usuario u, Vuelo v, int num_asiento, double importe) {
-		Random cod = new Random();
-		this.codigo = String.valueOf(cod.nextDouble());
-		this.importe = importe;
-		this.num_asiento = num_asiento;
+		
 	}
 	
 	public int getNum_asiento() {
-		return num_asiento;
+		return num_asientos;
 	}
 
 	public void setNum_asiento(int num_asiento) {
-		this.num_asiento = num_asiento;
+		this.num_asientos = num_asiento;
 	}
 
 	public double getImporte() {
@@ -38,9 +49,35 @@ public class ReservaVuelo {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
-	
-	public String ReservaToString() {
-		String reserva = "Codigo: "+ codigo + " Importe: " + String.valueOf(importe) + " Numero de asiento: " +String.valueOf(num_asiento);
-		return reserva;
+	public int getNum_asientos() {
+		return num_asientos;
+	}
+
+	public void setNum_asientos(int num_asientos) {
+		this.num_asientos = num_asientos;
+	}
+
+	public Date getFechaReserva() {
+		return fechaReserva;
+	}
+
+	public void setFechaReserva(Date fechaReserva) {
+		this.fechaReserva = fechaReserva;
+	}
+
+	public int getNumeroPasajeros() {
+		return numeroPasajeros;
+	}
+
+	public void setNumeroPasajeros(int numeroPasajeros) {
+		this.numeroPasajeros = numeroPasajeros;
+	}
+
+	public String[] getNombrePasajeros() {
+		return nombrePasajeros;
+	}
+
+	public void setNombrePasajeros(String[] nombrePasajeros) {
+		this.nombrePasajeros = nombrePasajeros;
 	}
 }
