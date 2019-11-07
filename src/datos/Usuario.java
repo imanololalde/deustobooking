@@ -1,5 +1,8 @@
 package datos;
 
+import javax.jdo.annotations.PersistenceCapable;
+
+@PersistenceCapable
 public class Usuario {
 
 	private String nombre;
