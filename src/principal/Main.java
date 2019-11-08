@@ -1,5 +1,8 @@
 package principal;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
@@ -74,6 +77,39 @@ public class Main {
 			    }
 	
 			    persistentManager.close();
+			}
+			
+			try {
+				//Crear la transaccion por cada acceso a las BBDD porque está cerra
+				persistentManager = persistentManagerFactory.getPersistenceManager();
+				transaction = persistentManager.currentTransaction();
+				
+				transaction.begin();
+				
+				Query<ReservaVuelo> reserva = persistentManager.newQuery(ReservaVuelo.class);
+				reserva.setFilter("codigo = IB6789");
+				@SuppressWarnings("unchecked")
+				
+				//Borrando la reserva
+				Collection<ReservaVuelo> resultado = (Collection<ReservaVuelo>) reserva.execute();
+				
+				Iterator<ReservaVuelo> iterator = resultado.iterator();
+				while(iterator.hasNext()) {
+					persistentManager.deletePersistent(iterator.next());
+				}
+				//Reserva borrada
+				
+				transaction.commit();
+			} catch (Exception ex) {
+				System.err.println("* Error borrado de reserva: " + ex.getMessage());
+			} finally {
+				//En caso de no funcionar la transaccion
+				if(transaction != null && transaction.isActive()) {
+					transaction.rollback();
+				}
+				if(persistentManager != null && !persistentManager.isClosed()) {
+					persistentManager.close();
+				}
 			}
 		} catch (Exception ex) {
 			System.err.println("* Exception: " + ex.getMessage());
