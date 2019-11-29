@@ -7,13 +7,12 @@ public class Aeropuerto {
 	private String ciudad;
 	private String nombre;
 	
-	public String getPais() {
-		return pais;
+	public Aeropuerto() {
+		
 	}
 	
-	public Aeropuerto(String nombre, String codigo) {
-		this.codigo = codigo;
-		this.nombre = nombre;
+	public String getPais() {
+		return pais;
 	}
 
 	public void setPais(String pais) {
@@ -43,4 +42,5 @@ public class Aeropuerto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 }

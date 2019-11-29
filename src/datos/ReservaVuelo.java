@@ -1,8 +1,8 @@
 package datos;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
@@ -11,23 +11,57 @@ public class ReservaVuelo {
 	
 	@PrimaryKey
 	private String codigo;
-	@NotPersistent
-	private int num_asientos;
+
+	private int numAsientos;
 	private double importe;
-	@NotPersistent
 	private Date fechaReserva;
 	private int numeroPasajeros;
-	@NotPersistent
 	private String[] nombrePasajeros;
+	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+	private ArrayList<Vuelo> vuelos = new ArrayList<Vuelo>();
 	
+	public void addVuelo(Vuelo vuelo) {
+		this.vuelos.add(vuelo);
+	}
 	
+	public void removeVuelo(int index) {
+		vuelos.remove(index);
+	}
 	
-	public ReservaVuelo(Usuario u, Vuelo v, int num_asientos, double importe) {
+	public ArrayList<Vuelo> getVuelos() {
+		return vuelos;
+	}
+
+	public void setVuelos(ArrayList<Vuelo> vuelos) {
+		this.vuelos = vuelos;
+	}
+
+	public void addUsuario(Usuario usuario) {
+		this.usuarios.add(usuario);
+	}
+	
+	public void removeUsuario(int index) {
+		usuarios.remove(index);
+	}
+	
+	public ArrayList<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(ArrayList<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public void setNumAsientos(int numAsientos) {
+		this.numAsientos = numAsientos;
+	}
+
+	public ReservaVuelo() {
 		
 	}
 	
-	public int getNum_asientos() {
-		return num_asientos;
+	public int getNumAsientos() {
+		return numAsientos;
 	}
 
 	public double getImporte() {
@@ -44,10 +78,6 @@ public class ReservaVuelo {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
-	}
-
-	public void setNum_asientos(int num_asientos) {
-		this.num_asientos = num_asientos;
 	}
 
 	public Date getFechaReserva() {
@@ -73,4 +103,5 @@ public class ReservaVuelo {
 	public void setNombrePasajeros(String[] nombrePasajeros) {
 		this.nombrePasajeros = nombrePasajeros;
 	}
+	
 }

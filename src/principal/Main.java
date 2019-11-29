@@ -25,11 +25,33 @@ public class Main {
 			
 			try {
 			    transaction.begin();
-			    Aeropuerto salida=new Aeropuerto("BIO", "Bilbao");
-			    Aeropuerto llegada=new Aeropuerto("BCN", "Barcelona");
-			    Usuario usuario=new Usuario("Livio", "LEC","liviocuratolo@opendeusto.es");
-			    Vuelo vuelo = new Vuelo("IB6789",salida,llegada);
-			    ReservaVuelo reserva = new ReservaVuelo(usuario, vuelo, 3, 49.99);	    
+			    
+			    Aeropuerto salida = new Aeropuerto();
+			    salida.setCodigo("BIO");
+			    salida.setNombre("Bilbao");
+			    
+			    Aeropuerto llegada = new Aeropuerto();
+			    llegada.setCodigo("BCN");
+			    llegada.setNombre("Barcelona");
+			    
+			    Usuario usuario = new Usuario();
+			    usuario.setNombre("Livio");
+			    usuario.setApellidos("Curatolo");
+			    usuario.setNickname("LEC");
+			    usuario.setEmail("liviocuratolo@opendeusto.es");
+			    
+			    Vuelo vuelo = new Vuelo();
+			    vuelo.setCodigoVuelo("IB6789");
+			    vuelo.addElement(salida);
+			    vuelo.addElement(llegada);
+			    
+			    ReservaVuelo reserva = new ReservaVuelo();
+			    reserva.addUsuario(usuario);
+			    reserva.addVuelo(vuelo);
+			    reserva.setImporte(49.99);
+			    reserva.setNumAsientos(188);
+			    reserva.setCodigo("RV034");
+			    
 			    persistentManager.makePersistent(reserva);
 			    
 			    System.out.println("- Inserted into db: " + usuario.getNickname());

@@ -4,11 +4,11 @@ import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable
 public class PayPal extends tipoDePago{
+	
 	private String email;
 
-	public PayPal(String email) {
-		super();
-		this.email = email;
+	public PayPal() {
+		
 	}
 
 	public String getEmail() {
