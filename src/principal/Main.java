@@ -3,12 +3,14 @@ package principal;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+
+import org.apache.log4j.BasicConfigurator;
+
 import datos.*;
 
 public class Main {
@@ -16,7 +18,39 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		Aeropuerto salida = new Aeropuerto();
+	    salida.setCodigo("BIO");
+	    salida.setNombre("Bilbao");
+	    
+	    Aeropuerto llegada = new Aeropuerto();
+	    llegada.setCodigo("BCN");
+	    llegada.setNombre("Barcelona");
+	    
+	    Usuario usuario = new Usuario();
+	    usuario.setNombre("Livio");
+	    usuario.setApellidos("Curatolo");
+	    usuario.setNickname("LEC");
+	    usuario.setEmail("liviocuratolo@opendeusto.es");
+	    
+	    Vuelo vuelo = new Vuelo();
+	    vuelo.setCodigoVuelo("IB6789");
+	    vuelo.addElement(salida);
+	    vuelo.addElement(llegada);
+	    Vuelo vuelo2 = new Vuelo();
+	    vuelo2.setCodigoVuelo("VL7845");
+	    vuelo2.addElement(llegada);
+	    vuelo2.addElement(salida);
+	    
+	    ReservaVuelo reserva = new ReservaVuelo();
+	    reserva.addUsuario(usuario);
+	    reserva.addVuelo(vuelo);
+	    reserva.setImporte(49.99);
+	    reserva.setNumAsientos(188);
+	    reserva.setCodigo("RV034");
+	    
 		try {
+			BasicConfigurator.configure();
+			
 			PersistenceManagerFactory persistentManagerFactory = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			
 			//Insert data in the DB
@@ -24,96 +58,107 @@ public class Main {
 			Transaction transaction = persistentManager.currentTransaction();				
 			
 			try {
-			    transaction.begin();
+				
+				transaction = persistentManager.currentTransaction();
+				transaction.begin();
 			    
-			    Aeropuerto salida = new Aeropuerto();
-			    salida.setCodigo("BIO");
-			    salida.setNombre("Bilbao");
-			    
-			    Aeropuerto llegada = new Aeropuerto();
-			    llegada.setCodigo("BCN");
-			    llegada.setNombre("Barcelona");
-			    
-			    Usuario usuario = new Usuario();
-			    usuario.setNombre("Livio");
-			    usuario.setApellidos("Curatolo");
-			    usuario.setNickname("LEC");
-			    usuario.setEmail("liviocuratolo@opendeusto.es");
-			    
-			    Vuelo vuelo = new Vuelo();
-			    vuelo.setCodigoVuelo("IB6789");
-			    vuelo.addElement(salida);
-			    vuelo.addElement(llegada);
-			    
-			    ReservaVuelo reserva = new ReservaVuelo();
-			    reserva.addUsuario(usuario);
-			    reserva.addVuelo(vuelo);
-			    reserva.setImporte(49.99);
-			    reserva.setNumAsientos(188);
-			    reserva.setCodigo("RV034");
-			    
+			    persistentManager.makePersistent(usuario);
+			    persistentManager.makePersistent(vuelo);
+			    persistentManager.makePersistent(vuelo2);
 			    persistentManager.makePersistent(reserva);
 			    
 			    System.out.println("- Inserted into db: " + usuario.getNickname());
 			    System.out.println("- Inserted into db: " + vuelo.getCodigoVuelo());
-			    transaction.commit();
-			} catch(Exception ex) {
-				System.err.println("* Exception inserting data into db: " + ex.getMessage());
-			} finally {		    
-				if (transaction.isActive()) {
-			        transaction.rollback();
-			    }
+			    System.out.println("- Inserted into db: " + reserva.getCodigo());
 			    
-			    persistentManager.close();
+			    transaction.commit();
+			    
+			} catch(Exception ex) {
+				System.err.println("Error insertando los datos en la BD: " + ex.getMessage());
+			} finally {		    
+				
+				if (transaction != null && transaction.isActive()) {
+					transaction.rollback();
+				}
+
+				if (persistentManager != null && !persistentManager.isClosed()) {
+					persistentManager.close();
+				}
 			}
-			
-			//Select data using a Query
-			persistentManager = persistentManagerFactory.getPersistenceManager();
-			transaction = persistentManager.currentTransaction();
 				
 			try {
-			    transaction.begin();
-	
-			    @SuppressWarnings("unchecked")
-				Query<Vuelo> vuelosQuery = persistentManager.newQuery("SELECT FROM " + Vuelo.class.getName() + " WHERE price < 150.00 ORDER BY price ASC");
-			    
-			    for (Vuelo vuelo : vuelosQuery.executeList()) {
-			        System.out.println("- Selected reserva from db: " + vuelo.getCodigoVuelo());
-			        persistentManager.deletePersistent(vuelo);
-			        System.out.println("- Deleted reserva from db: " + vuelo.getCodigoVuelo());
-			    }
-			    
-			    Extent<ReservaVuelo> reservaVueloExtent = persistentManager.getExtent(ReservaVuelo.class);
-			    
-			    for (ReservaVuelo reservaVuelo : reservaVueloExtent) {
-			    	persistentManager.deletePersistent(reservaVuelo);
-			        System.out.println("- Deleted vuelo from db: " + reservaVuelo.getCodigo());
-			    }
-	
-			    transaction.commit();
-			} catch(Exception ex) {
-				System.err.println("* Exception executing a query: " + ex.getMessage());
-			} finally {
-				if (transaction.isActive()) {
-			        transaction.rollback();
-			    }
-	
-			    persistentManager.close();
-			}
-			
-			try {
-				//Crear la transaccion por cada acceso a las BBDD porque está cerra
+				//Selecionar datos usando Query
 				persistentManager = persistentManagerFactory.getPersistenceManager();
 				transaction = persistentManager.currentTransaction();
+			    transaction.begin();
+	
+			    System.out.println("Seleccionando los vuelos con precio mayor que 150€");
+			    
+			    @SuppressWarnings("unchecked")
+				Query<Vuelo> vuelosQuery = persistentManager.newQuery("SELECT * FROM " + Vuelo.class.getName() + " WHERE price < 150.00 ORDER BY price ASC");
+			    
+			    @SuppressWarnings("unchecked")
+				Collection<Vuelo> resultado = (Collection<Vuelo>)vuelosQuery.execute();
+			    
+			    Iterator<Vuelo> iterator = resultado.iterator();
+			    while(iterator.hasNext()) {
+			    	System.out.println("Vuelo: "+iterator.next().toString());
+			    }
+	
+			    transaction.commit();
+			    
+			} catch(Exception ex) {
+				System.err.println("Error seleccionando el vuelo: " + ex.getMessage());
+			} finally {
 				
+				if (transaction != null && transaction.isActive()) {
+					transaction.rollback();
+				}
+
+				if (persistentManager != null && !persistentManager.isClosed()) {
+					persistentManager.close();
+				}
+
+			}
+			
+			try {
+				//Actualizar la reserva
+				persistentManager = persistentManagerFactory.getPersistenceManager();
+				transaction = persistentManager.currentTransaction();
 				transaction.begin();
 				
-				Query<ReservaVuelo> reserva = persistentManager.newQuery(ReservaVuelo.class);
-				reserva.setFilter("codigo = IB6789");
-				@SuppressWarnings("unchecked")
+				System.out.println("Actualizando reserva del vuelo "+reserva.getCodigo());
 				
+				Query<ReservaVuelo> reservaQuery = persistentManager.newQuery(ReservaVuelo.class);
+				reservaQuery.setFilter("codigo = IB6722");
+				
+				transaction.commit();
+				
+			} catch (Exception ex) {
+				System.err.println("Error actualizando la reserva: " + ex.getMessage());
+			} finally {
+				
+				if(transaction != null && transaction.isActive()) {
+					transaction.rollback();
+				}
+				if(persistentManager != null && !persistentManager.isClosed()) {
+					persistentManager.close();
+				}
+			}
+			
+			try {
 				//Borrando la reserva
-				Collection<ReservaVuelo> resultado = (Collection<ReservaVuelo>) reserva.execute();
+				persistentManager = persistentManagerFactory.getPersistenceManager();
+				transaction = persistentManager.currentTransaction();
+				transaction.begin();
+				
+				System.out.println("Borrando la reserva: "+reserva.getCodigo());
+				
+				Query<ReservaVuelo> reservaQuery = persistentManager.newQuery(ReservaVuelo.class);
+				reservaQuery.setFilter("codigo == 'RV034'");
+				
+				@SuppressWarnings("unchecked")
+				Collection<ReservaVuelo> resultado = (Collection<ReservaVuelo>) reservaQuery.execute();
 				
 				Iterator<ReservaVuelo> iterator = resultado.iterator();
 				while(iterator.hasNext()) {
@@ -122,20 +167,23 @@ public class Main {
 				//Reserva borrada
 				
 				transaction.commit();
+				
 			} catch (Exception ex) {
-				System.err.println("* Error borrado de reserva: " + ex.getMessage());
+				System.err.println("Error borrando reserva: " + ex.getMessage());
 			} finally {
-				//En caso de no funcionar la transaccion
-				if(transaction != null && transaction.isActive()) {
+				
+				if (transaction != null && transaction.isActive()) {
 					transaction.rollback();
 				}
-				if(persistentManager != null && !persistentManager.isClosed()) {
+
+				if (persistentManager != null && !persistentManager.isClosed()) {
 					persistentManager.close();
 				}
 			}
 		} catch (Exception ex) {
 			System.err.println("* Exception: " + ex.getMessage());
 		}
+		
 	}
 }
 
