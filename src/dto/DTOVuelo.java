@@ -1,16 +1,14 @@
-package datos;
+package dto;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.PrimaryKey;
+import datos.Aeropuerto;
 
-@PersistenceCapable
-public class Vuelo {
-
-	@PrimaryKey
-	private String codigoVuelo;
+public class DTOVuelo {
+	
+private String codigoVuelo;
+	
 	private Date fecha;
 	private int asientosDisponibles;
 	private int asientosTotales;
@@ -35,9 +33,7 @@ public class Vuelo {
 		this.aeropuertos = aeropuerto;
 	}
 
-	
-
-	public Vuelo(String codigoVuelo, Date fecha, int asientosDisponibles, int asientosTotales, String horaSalida,
+	public DTOVuelo(String codigoVuelo, Date fecha, int asientosDisponibles, int asientosTotales, String horaSalida,
 			String horaLlegada, double precio, ArrayList<Aeropuerto> aeropuertos) {
 		this.codigoVuelo = codigoVuelo;
 		this.fecha = fecha;

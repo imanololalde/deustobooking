@@ -1,7 +1,6 @@
-package datos;
+package dto;
 
-public class Aeropuerto {
-	
+public class DTOAeropuerto {	
 	private String codigo;
 	private String pais;
 	private String ciudad;
@@ -9,7 +8,7 @@ public class Aeropuerto {
 	
 	
 	
-	public Aeropuerto(String codigo, String pais, String ciudad, String nombre) {
+	public DTOAeropuerto(String codigo, String pais, String ciudad, String nombre) {
 		this.codigo = codigo;
 		this.pais = pais;
 		this.ciudad = ciudad;
@@ -48,4 +47,5 @@ public class Aeropuerto {
 		this.nombre = nombre;
 	}
 	
+
 }

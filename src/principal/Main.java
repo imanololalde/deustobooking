@@ -1,5 +1,8 @@
 package principal;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -17,36 +20,42 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		java.util.Date date=new java.util.Date();  
+		
+		
 
-		Aeropuerto salida = new Aeropuerto();
-	    salida.setCodigo("BIO");
-	    salida.setNombre("Bilbao");
+		Aeropuerto salida = new Aeropuerto("BIO","España","Bilbao","Aeropuerto de Loiu");
+	   
 	    
-	    Aeropuerto llegada = new Aeropuerto();
-	    llegada.setCodigo("BCN");
-	    llegada.setNombre("Barcelona");
+	    Aeropuerto llegada = new Aeropuerto("BCN","España","Barcelona","Aeropuerto El Prat");
 	    
-	    Usuario usuario = new Usuario();
+	    ArrayList<Aeropuerto> todos= new ArrayList<Aeropuerto>();
+	    todos.add(salida);
+	    todos.add(llegada);
+	    
+	    Usuario usuario = new Usuario("","",0);
 	    usuario.setNombre("Livio");
-	    usuario.setApellidos("Curatolo");
-	    usuario.setNickname("LEC");
+	    usuario.setSisAutorizacion(1);
 	    usuario.setEmail("liviocuratolo@opendeusto.es");
+	    ArrayList<Usuario> todosU =new ArrayList<Usuario>();
+	    todosU.add(usuario);
 	    
-	    Vuelo vuelo = new Vuelo();
-	    vuelo.setCodigoVuelo("IB6789");
-	    vuelo.addElement(salida);
-	    vuelo.addElement(llegada);
-	    Vuelo vuelo2 = new Vuelo();
-	    vuelo2.setCodigoVuelo("VL7845");
-	    vuelo2.addElement(llegada);
-	    vuelo2.addElement(salida);
+	    String[] nombres = new String[todosU.size()];
+	    for(int i=0; i<todosU.size();i++) {
+	    	nombres[i]=todosU.get(i).getNombre();
+	    }
+	    Vuelo vuelo = new Vuelo("IB6789",date,120,240,"12:00","14:00",120.00,todos);
 	    
-	    ReservaVuelo reserva = new ReservaVuelo();
-	    reserva.addUsuario(usuario);
-	    reserva.addVuelo(vuelo);
-	    reserva.setImporte(49.99);
-	    reserva.setNumAsientos(188);
-	    reserva.setCodigo("RV034");
+	    Vuelo vuelo2 = new Vuelo("VL7845",date,100,240,"18:00","20:00",100.00,todos);
+	    
+	    ArrayList<Vuelo> todosV = new ArrayList<Vuelo>();
+	    todosV.add(vuelo);
+	    todosV.add(vuelo2);
+	    
+	    
+	    ReservaVuelo reserva = new ReservaVuelo("RV034",188,49.99,date,nombres.length,nombres,todosU,todosV	);
+	 
 	    
 		try {
 			BasicConfigurator.configure();
@@ -67,7 +76,7 @@ public class Main {
 			    persistentManager.makePersistent(vuelo2);
 			    persistentManager.makePersistent(reserva);
 			    
-			    System.out.println("- Inserted into db: " + usuario.getNickname());
+			    System.out.println("- Inserted into db: " + usuario.getSisAutorizacion());
 			    System.out.println("- Inserted into db: " + vuelo.getCodigoVuelo());
 			    System.out.println("- Inserted into db: " + reserva.getCodigo());
 			    
@@ -186,5 +195,3 @@ public class Main {
 		
 	}
 }
-
-

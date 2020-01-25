@@ -1,15 +1,15 @@
-package datos;
+package dto;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable
-public class ReservaVuelo {
+import datos.Usuario;
+import datos.Vuelo;
 
-	@PrimaryKey
+public class DTOReserva {
+	
 	private String codigo;
 	private int numAsientos;
 	private double importe;
@@ -18,15 +18,15 @@ public class ReservaVuelo {
 	private String[] nombrePasajeros;
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	private ArrayList<Vuelo> vuelos = new ArrayList<Vuelo>();
-
+	
 	public void addVuelo(Vuelo vuelo) {
 		this.vuelos.add(vuelo);
 	}
-
+	
 	public void removeVuelo(int index) {
 		vuelos.remove(index);
 	}
-
+	
 	public ArrayList<Vuelo> getVuelos() {
 		return vuelos;
 	}
@@ -38,11 +38,11 @@ public class ReservaVuelo {
 	public void addUsuario(Usuario usuario) {
 		this.usuarios.add(usuario);
 	}
-
+	
 	public void removeUsuario(int index) {
 		usuarios.remove(index);
 	}
-
+	
 	public ArrayList<Usuario> getUsuarios() {
 		return usuarios;
 	}
@@ -55,19 +55,16 @@ public class ReservaVuelo {
 		this.numAsientos = numAsientos;
 	}
 
-	public ReservaVuelo(String codigo, int numAsientos, double importe, Date fechaReserva, int numeroPasajeros,
-			String[] nombrePasajeros, ArrayList<Usuario> usuarios, ArrayList<Vuelo> vuelos) {
+	public DTOReserva(String codigo, int numAsientos, double importe, Date fechaReserva, int numeroPasajeros, String[] nombrePasajeros, ArrayList<Usuario> usuarios, ArrayList<Vuelo> vuelos) {
 		this.codigo = codigo;
 		this.numAsientos = numAsientos;
-		this.importe = importe;
 		this.fechaReserva = fechaReserva;
 		this.numeroPasajeros = numeroPasajeros;
 		this.nombrePasajeros = nombrePasajeros;
 		this.usuarios = usuarios;
 		this.vuelos = vuelos;
 	}
-
-
+	
 	public int getNumAsientos() {
 		return numAsientos;
 	}
@@ -111,5 +108,5 @@ public class ReservaVuelo {
 	public void setNombrePasajeros(String[] nombrePasajeros) {
 		this.nombrePasajeros = nombrePasajeros;
 	}
-
+	
 }

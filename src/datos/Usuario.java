@@ -7,14 +7,16 @@ import javax.jdo.annotations.PrimaryKey;
 public class Usuario {
 	
 	@PrimaryKey
-	private String nickname;
-	
 	private String nombre;
 	private String email;
-	private String apellidos;
+	private int sisAutorizacion;
 	
-	public Usuario() {
-		
+	
+
+	public Usuario(String nombre, String email, int sisAutorizacion) {
+		this.nombre = nombre;
+		this.email = email;
+		this.sisAutorizacion = sisAutorizacion;
 	}
 
 	public String getNombre() {
@@ -25,22 +27,6 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 	
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -48,4 +34,13 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public int getSisAutorizacion() {
+		return sisAutorizacion;
+	}
+
+	public void setSisAutorizacion(int sisAutorizacion) {
+		this.sisAutorizacion = sisAutorizacion;
+	}
+	
 }
