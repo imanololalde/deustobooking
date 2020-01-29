@@ -13,7 +13,7 @@ import javax.jdo.Transaction;
 import datos.ReservaVuelo;
 import datos.Usuario;
 
-public class DeustoBookingDAO {
+public class DeustoBookingDAO implements IDeustoBookingDAO{
 	private PersistenceManagerFactory factory;
 
 	public DeustoBookingDAO() {
@@ -40,7 +40,7 @@ public class DeustoBookingDAO {
 		}
 	}
 	
-	public void storeReservaVuelo(ReservaVuelo rv) {
+	public void guardarReserva(ReservaVuelo rv) {
 		// TODO Auto-generated method stub
 		PersistenceManager pm = factory.getPersistenceManager();
 	    Transaction tx = pm.currentTransaction();
@@ -91,7 +91,7 @@ public class DeustoBookingDAO {
 	    return resultado;
 	}
 	
-	public List<ReservaVuelo> getReservatios(Usuario u) {
+	public List<ReservaVuelo> getReserva(Usuario u) {
 		// TODO Auto-generated method stub
 		PersistenceManager persman = factory.getPersistenceManager();
 		/* By default only 1 level is retrieved from the db

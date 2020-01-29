@@ -6,35 +6,20 @@ import java.util.Date;
 import datos.Aeropuerto;
 
 public class DTOVuelo {
-	
-private String codigoVuelo;
-	
+
+	private String codigoVuelo;
+
 	private Date fecha;
 	private int asientosDisponibles;
 	private int asientosTotales;
 	private String horaSalida;
 	private String horaLlegada;
 	private double precio;
-	private ArrayList<Aeropuerto> aeropuertos = new ArrayList<Aeropuerto>();
-	
-	public void addElement(Aeropuerto aeropuerto) {
-		this.aeropuertos.add(aeropuerto);
-	}
-	
-	public void removeElement(int index) {
-		aeropuertos.remove(index);
-	}
-	
-	public ArrayList<Aeropuerto> getAeropuerto() {
-		return aeropuertos;
-	}
-
-	public void setAeropuerto(ArrayList<Aeropuerto> aeropuerto) {
-		this.aeropuertos = aeropuerto;
-	}
+	private Aeropuerto aeropuertoOrigen;
+	private Aeropuerto aeropuertoDestino;
 
 	public DTOVuelo(String codigoVuelo, Date fecha, int asientosDisponibles, int asientosTotales, String horaSalida,
-			String horaLlegada, double precio, ArrayList<Aeropuerto> aeropuertos) {
+			String horaLlegada, double precio, Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino) {
 		this.codigoVuelo = codigoVuelo;
 		this.fecha = fecha;
 		this.asientosDisponibles = asientosDisponibles;
@@ -42,7 +27,24 @@ private String codigoVuelo;
 		this.horaSalida = horaSalida;
 		this.horaLlegada = horaLlegada;
 		this.precio = precio;
-		this.aeropuertos = aeropuertos;
+		this.aeropuertoOrigen = aeropuertoOrigen;
+		this.aeropuertoDestino = aeropuertoDestino;
+	}
+
+	public Aeropuerto getAeropuertoOrigen() {
+		return aeropuertoOrigen;
+	}
+
+	public void setAeropuertoOrigen(Aeropuerto aeropuertoOrigen) {
+		this.aeropuertoOrigen = aeropuertoOrigen;
+	}
+
+	public Aeropuerto getAeropuertoDestino() {
+		return aeropuertoDestino;
+	}
+
+	public void setAeropuertoDestino(Aeropuerto aeropuertoDestino) {
+		this.aeropuertoDestino = aeropuertoDestino;
 	}
 
 	public String getCodigoVuelo() {
@@ -60,7 +62,6 @@ private String codigoVuelo;
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
 
 	public int getAsientosDisponibles() {
 		return asientosDisponibles;
@@ -101,5 +102,4 @@ private String codigoVuelo;
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
-	
 }

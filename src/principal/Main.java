@@ -30,9 +30,7 @@ public class Main {
 	    
 	    Aeropuerto llegada = new Aeropuerto("BCN","España","Barcelona","Aeropuerto El Prat");
 	    
-	    ArrayList<Aeropuerto> todos= new ArrayList<Aeropuerto>();
-	    todos.add(salida);
-	    todos.add(llegada);
+	   
 	    
 	    Usuario usuario = new Usuario("","",0);
 	    usuario.setNombre("Livio");
@@ -45,9 +43,9 @@ public class Main {
 	    for(int i=0; i<todosU.size();i++) {
 	    	nombres[i]=todosU.get(i).getNombre();
 	    }
-	    Vuelo vuelo = new Vuelo("IB6789",date,120,240,"12:00","14:00",120.00,todos);
+	    Vuelo vuelo = new Vuelo("IB6789",date,120,240,"12:00","14:00",120.00,salida,llegada);
 	    
-	    Vuelo vuelo2 = new Vuelo("VL7845",date,100,240,"18:00","20:00",100.00,todos);
+	    Vuelo vuelo2 = new Vuelo("VL7845",date,100,240,"18:00","20:00",100.00,llegada,salida);
 	    
 	    ArrayList<Vuelo> todosV = new ArrayList<Vuelo>();
 	    todosV.add(vuelo);
